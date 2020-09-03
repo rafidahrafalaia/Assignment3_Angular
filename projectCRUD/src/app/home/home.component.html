@@ -1,0 +1,114 @@
+<ng-template #mymodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add Item</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group row">
+            <label for="example-text-input" class="col-sm-4 col-form-label">Nama Item</label>
+            <div>
+                <input class="form-control" type="text" placeholder="Enter Name Item" id="example-text-input"
+                    [(ngModel)]="name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Select</label>
+            <div class="col-sm-6">
+                <select class="form-control" [(ngModel)]="typeItem">
+                    <!-- <option disabled>Select Kategori</option> -->
+                    <option *ngFor="let item of dataDropdown" [value]="item.typeItem">{{item.typeItem}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-date-input" class="col-sm-4 col-form-label">Date</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="date" value="2011-08-19" id="example-date-input"
+                    [(ngModel)]="expiredDate">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Close</button>
+        <button type="button" class="btn btn-outline-dark" (click)="saveItem()">Save</button>
+    </div>
+</ng-template>
+<ng-template #mymodalEdit let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Edit Item</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row" style="margin-left: 10px;">
+            <h5>ID Barang</h5>
+        </div>
+        <div class="row" style="margin-left: 10px;">
+            <input class="form-control col-sm-11" type="text" [(ngModel)]="itemEdit.uuid" disabled>
+        </div>
+        <div class="row" style="margin-left: 10px;">
+            <h5>Nama Barang</h5>
+        </div>
+        <div class="row" style="margin-left: 10px;">
+            <input class="form-control col-sm-11" type="text" [(ngModel)]="itemEdit.name">
+        </div>
+        <div class="row" style="margin-left: 10px;">
+            <h5>Jenis Barang</h5>
+        </div>
+        <div class="row" style="margin-left: 10px;">
+            <select class="form-control col-sm-11" [(ngModel)]="itemEdit.typeItem">
+                <option *ngFor="let item of dataDropdown" [value]="item.typeItem">{{item.typeItem}}</option>
+            </select>
+        </div>
+        <div class="row" style="margin-left: 10px;">
+            <h5>Tanggal Kadaluarsa</h5>
+        </div>
+        <div class="row" style="margin-left: 10px;">
+            <div class="form-group">
+                <div class="input-group">
+                    <input class="form-control" placeholder="{{itemEdit.expiredDate * 1000 | date:'yyyy-MM-dd'}}" name="dp" [(ngModel)]="model" ngbDatepicker
+                        #d="ngbDatepicker" (click)="d.toggle()" [(ngModel)]="dpick">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar fa fa-calendar" (click)="d.toggle()"
+                            type="button"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cancel')">Cancel</button>
+        <button type="button" class="btn btn-outline-dark" (click)="saveEdit(itemEdit.id)">Ok</button>
+    </div>
+</ng-template>
+<div class="col-12">
+    <div class="button">
+        <button lass="btn btn-primary" (click)="open(mymodal)">Add</button>
+    </div>
+    <table class="blueTable" align="center">
+        <thead>
+            <tr>
+                <th>ID Barang</th>
+                <th>Nama Barang</th>
+                <th>Jenis Barang</th>
+                <th>Tanggal Kadaluarsa</th>
+                <th colspan="2">Aksi</th>
+            </tr>
+        </thead>
+       
+        <tbody>
+            <tr *ngFor="let item of item">
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.typeItem}}</td>
+                <td>{{item.expiredDate*1000| date:'fullDate'}}</td>
+                <td><button class="btn btn-success" (click)="edit(mymodalEdit, item.id)">EDIT</button></td>
+                <td><button class="btn btn-danger" (click)="deleteItems(item.id)">HAPUS</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script></script>
