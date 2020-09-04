@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
   expiredDate: string;
   typeItem:string;
   updDate= new Date();
+  dpick={ year: this.updDate.getFullYear(), month: this.updDate.getMonth()+1, day: 
+   this.updDate.getDate() };
   // itemEd: Item;
   constructor(private itemService:ItemService, private route: Router,private modalService:NgbModal){
     this.itemEdit=new Item();
@@ -55,10 +57,9 @@ export class HomeComponent implements OnInit {
 
   saveEdit(id):void{ 
     console.log("newItem",this.itemEdit.name,this.itemEdit.expiredDate,this.itemEdit.typeItem)
-    
-    this.itemService.editItembyId(id,{name:this.itemEdit.name,expiredDate: this.itemEdit.expiredDate,typeItem: this.itemEdit.typeItem}).subscribe((itemID)=>{ 
+    this.itemService.editItembyId(id,{name:this.itemEdit.name,expiredDate: (new Date(this.dpick.year, this.dpick.month-1, this.dpick.day )).getTime() / 1000,typeItem: this.itemEdit.typeItem}).subscribe((itemID)=>{ 
       console.log("newItem",itemID.name,itemID.typeItem)
-      // this.itemEdit.expiredDate = (new Date(this.expiredDate.year, this.expiredDate.month-1, this.expiredDate.day )).getTime() / 1000
+      // this.itemEdit.expiredDate = (new Date(this.dpick.year, this.dpick.month-1, this.dpick.day )).getTime() / 1000
       this.itemService.getItem().subscribe((itemEd)=>{
         // console.log('item',this.itemEd.name,this.itemEd.expiredDate,this.itemEdit.typeItem)
         this.item=itemEd
